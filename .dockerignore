@@ -1,0 +1,4 @@
+chat.db
+chat.db-*
+__pycache__
+*.pyc

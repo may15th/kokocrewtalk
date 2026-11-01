@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kokocrew-talk",
+  "main": "cloudflare/worker.js",
+  "compatibility_date": "2026-10-30",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*", "/ws/*"]
+  },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "kokocrew-talk",
+    "database_id": "00000000-0000-0000-0000-000000000000",
+    "migrations_dir": "migrations"
+  }],
+  "durable_objects": { "bindings": [{ "name": "ROOMS", "class_name": "ChatRoom" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["ChatRoom"] }],
+  "vars": { "FREE_ONLY": "true" },
+  "observability": { "enabled": false }
+}
