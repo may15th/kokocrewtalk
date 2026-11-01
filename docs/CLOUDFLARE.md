@@ -54,7 +54,19 @@ Remove-Item Env:KOKO_CONFIRMED_FREE_ACCOUNT
 
 배포 스크립트는 확인값/DB ID가 없으면 중단한다. **이는 사람이 대시보드를 확인했다는 표시이며 결제 플랜을 API로 검증하는 기능이 아니다.** Wrangler를 직접 실행하면 이 보호를 우회하므로 운영 배포는 위 스크립트를 사용한다. 자동 유료 가입·전환 코드는 없다. 요금 정책이 바뀌거나 계정이 Paid로 변경되면 이 전제는 다시 확인해야 한다.
 
-## SQLite 이전
+## Git 연동 Workers Builds 설정
+
+대시보드 Worker 이름은 `kokocrewtalk`이며 wrangler.jsonc의 name과 일치시킨다. D1 이름 `kokocrew-talk`은 별도 리소스 이름이므로 그대로 사용해도 된다.
+
+1. 대상 계정의 Workers Free를 확인한 뒤 D1에서 `kokocrew-talk` DB를 생성한다. 기존 DB가 있으면 재사용한다.
+2. DB의 Database ID를 wrangler.jsonc의 `database_id`에 입력한다. 0 UUID는 로컬용이며 실제 배포에서는 동작하지 않는다. Database ID는 비밀번호/API 토큰이 아니다.
+3. D1 콘솔에서 migrations/0001_initial.sql을 한 번 실행하거나, Wrangler로 원격 마이그레이션을 적용한다. 이미 적용한 스키마는 다시 실행하지 않는다.
+4. 설정 변경을 Git 저장소에 반영한다.
+5. Workers Builds의 빌드 명령은 `npm run build`, 배포 명령은 `npm run deploy`로 설정한다. `npx wrangler deploy`는 무료 확인용 스크립트를 우회한다.
+6. 실제 Workers Free를 확인한 경우에만 빌드 변수 `KOKO_CONFIRMED_FREE_ACCOUNT=YES`를 추가한다. 이 값 자체가 실제 계정 플랜을 검증하거나 변경하지는 않는다.
+7. 재배포 후 공용 URL에서 로그인·메시지 저장·두 기기 동시 대화를 확인한다.
+
+## SQLite 이전 절차
 
 최종 전환 시 Python 서버 쓰기를 중단한다. WAL 파일을 수동으로 삭제/복사하지 않는다.
 

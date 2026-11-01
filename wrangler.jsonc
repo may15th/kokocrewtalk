@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "kokocrew-talk",
+  "name": "kokocrewtalk",
   "main": "cloudflare/worker.js",
   "compatibility_date": "2026-10-30",
   "workers_dev": true,
@@ -12,7 +12,7 @@
   "d1_databases": [{
     "binding": "DB",
     "database_name": "kokocrew-talk",
-    "database_id": "00000000-0000-0000-0000-000000000000",
+    "database_id": "5ea0f215-26f0-4f0d-a992-26deb6df087a",
     "migrations_dir": "migrations"
   }],
   "durable_objects": { "bindings": [{ "name": "ROOMS", "class_name": "ChatRoom" }] },
